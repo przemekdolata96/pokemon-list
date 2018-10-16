@@ -1,0 +1,14 @@
+{
+  "name": "pokemon-list",
+  "version": "1.0.0",
+  "description": "Pokemon REST API",
+  "main": "index.js",
+  "scripts": {
+    "api": "json-server --watch -p 4000 db.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^0.14.0"
+  }
+}

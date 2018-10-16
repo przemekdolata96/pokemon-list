@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function fetchPokemons() {
   return (dispatch) => {
-    axios.get('http://localhost:3000/pokemons')
+    axios.get('http://localhost:4000/pokemons')
       .then((response) => {
         dispatch({
           type: 'FETCH_POKEMONS_FULFILLED',
