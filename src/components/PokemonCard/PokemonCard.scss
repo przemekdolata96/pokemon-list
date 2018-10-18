@@ -14,6 +14,10 @@
     font-weight: 600;
     color: $black;
   }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .image-container {
@@ -31,6 +35,8 @@
 .type-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
 
   .type {
     padding: 3px 10px;
@@ -39,6 +45,10 @@
     line-height: 14px;
     margin: 5px;
     color: $white;
+  }
+
+  span {
+    font-weight: normal;
   }
 
   .Grass {
@@ -62,7 +72,7 @@
   }
 
   .Flying {
-    background-color: $orange;
+    background-color: $cyan;
   }
 
   .Bug {
@@ -89,4 +99,49 @@
     background-color: $gray;
   }
   
+  .Fairy {
+    background-color: $dark-purple;
+  }
+
+  .Fighting {
+    background-color: $orange;
+  }
+
+  .Dragon {
+    background-color: $dark-red;
+  }
+
+  .Ghost {
+    background-color: $lite-brown;
+  }
+}
+
+.full-container {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top:0;
+  left: 0;
+  background-color:rgba(51, 51, 51, 0.7);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.modal {
+  width: 300px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: $white;
+  border-radius: 5px;
+
+  img {
+    width: 100%;
+  }
+
+  span {
+    margin: 10px;
+  }
 }

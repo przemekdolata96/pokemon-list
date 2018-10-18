@@ -1,50 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import './PokemonCard.scss';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.string,
-  image: PropTypes.string,
-  pokemonType: PropTypes.arrayOf(PropTypes.string),
+  pokemon: PropTypes.shape({}),
 };
 
 const defaultProps = {
-  name: '',
-  number: '',
-  image: '',
-  pokemonType: [],
+  pokemon: {},
 };
-
-
-/* const PokemonCard = (props) => {
-  const {
-    image,
-    number,
-    name,
-    pokemonType,
-  } = { ...props };
-  return (
-    <div className="pokemon-card-container">
-      <div className="image-container">
-        <img src={image} alt="Pokemon" />
-      </div>
-      <span>{`#${number} ${name}`}</span>
-      <div className="type-container">
-        {
-          pokemonType.map(type => <div key={type} className={`type ${type}`}>{type}</div>)
-        }
-      </div>
-      <div className="full-container">
-        
-      </div>
-    </div>
-  );
-}; */
-
-
 export default class PokemonCard extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -53,40 +18,76 @@ export default class PokemonCard extends Component {
   }
 
   toogleModal = () => {
+    const { modalOpen } = { ...this.state };
     this.setState({
-      modalOpen: !this.modalOpen
-    })
+      modalOpen: !modalOpen,
+    });
   }
 
   render() {
-    const {
-      image,
-      number,
-      name,
-      pokemonType,
-    } = { ...this.props };
+    const { pokemon } = { ...this.props };
+    const { modalOpen } = { ...this.state };
 
     return (
-      <div className="pokemon-card-container" onClick={this.toogleModal}>
+      <div role="button" tabIndex={-1} className="pokemon-card-container" onClick={this.toogleModal} onKeyDown={this.toogleModal}>
         <div className="image-container">
-          <img src={this.props.image} alt="Pokemon" />
+          <img src={pokemon.img} alt="Pokemon" />
         </div>
-        <span>{`#${number} ${name}`}</span>
+        <span>{`#${pokemon.num} ${pokemon.name}`}</span>
         <div className="type-container">
           {
-            pokemonType.map(type => <div key={type} className={`type ${type}`}>{type}</div>)
+            pokemon.type.map(type => <div key={type} className={`type ${type}`}>{type}</div>)
           }
         </div>
-        {this.modalOpen &&
-          <div className="full-container">
+        {modalOpen && (
+          <div role="button" tabIndex={-2} className="full-container" onClick={this.toogleModal} onKeyDown={this.toogleModal}>
+            <div className="modal">
+              <div className="image-container">
+                <img src={pokemon.img} alt="Pokemon" />
+              </div>
+              <span>{`#${pokemon.num} ${pokemon.name}`}</span>
+              <div className="type-container">
+                {
+                  pokemon.type
+                    .map(type => <div key={type} className={`type ${type}`}>{type}</div>)
+                }
+              </div>
+              <span>Weaknesses:</span>
+              <div className="type-container">
+                {
+                  pokemon.weaknesses
+                    .map(type => <div key={type} className={`type ${type}`}>{type}</div>)
+                }
+              </div>
+              {('prev_evolution' in pokemon) && (
+                <div>
+                  <span>Prev Evolutions:</span>
+                  <div className="type-container">
+                    {
+                      pokemon.prev_evolution
+                        .map(evolution => <span key={evolution.name}>{evolution.name}</span>)
+                    }
+                  </div>
+                </div>
+              )}
+              {('next_evolution' in pokemon) && (
+                <div>
+                  <span>Next Evolutions:</span>
+                  <div className="type-container">
+                    {
+                      pokemon.next_evolution
+                        .map(evolution => <span key={evolution.name}>{evolution.name}</span>)
+                    }
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        }
+        )}
       </div>
-    )
+    );
   }
 }
-
-
 
 PokemonCard.propTypes = propTypes;
 PokemonCard.defaultProps = defaultProps;

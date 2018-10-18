@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const propTypes = {
   currentPageNumber: PropTypes.number,
   lastPageNumber: PropTypes.number,
+  last: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -13,27 +14,28 @@ const defaultProps = {
 };
 
 const Pagination = (props) => {
+  const paginationItems = [];
+
+  for (let i = 1; i <= props.lastPageNumber; i++) {
+    paginationItems.push(
+      <div
+        key={i}
+        className={props.currentPageNumber === i ? 'active' : ''}
+        onClick={() => props.last(i)}
+        onKeyDown={() => props.last(i)}
+        role="button"
+        tabIndex={i}
+      >
+        {i}
+      </div>,
+    );
+  }
+
   return (
     <div>
-      {props.currentPageNumber < props.maxPages-2 ? (
-          <div className="pagination-container">
-            <div onClick={() => props.last(1)}>first</div>
-            <div onClick={() => props.last(props.currentPageNumber)}>{props.currentPageNumber}</div>
-            <div onClick={() => props.last(props.currentPageNumber + 1)}>{props.currentPageNumber+1}</div>
-            <div onClick={() => props.last(props.currentPageNumber + 2)}>{props.currentPageNumber+2}</div>
-            <div>...</div>
-            <div onClick={() => props.last(props.lastPageNumber)}>last</div>
-          </div>
-        ) : (
-          <div className="pagination-container">
-            <div onClick={() => props.last(1)}>first</div>
-            <div onClick={() => props.last(props.lastPageNumber-3)}>{props.lastPageNumber-3}</div>
-            <div onClick={() => props.last(props.lastPageNumber-2)}>{props.lastPageNumber-2}</div>
-            <div onClick={() => props.last(props.lastPageNumber-1)}>{props.lastPageNumber-1}</div>
-            <div onClick={() => props.last(props.lastPageNumber)}>{props.lastPageNumber}</div>
-            <div onClick={() => props.last(props.lastPageNumber)}>last</div>
-          </div>
-        )}
+      <div className="pagination-container">
+        {paginationItems}
+      </div>
     </div>
   );
 };

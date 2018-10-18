@@ -7,67 +7,76 @@ import PokemonCard from './components/PokemonCard/PokemonCard';
 import Pagination from './components/Pagination/Pagination';
 
 export class App extends Component {
-  static propTypes = {
-    //pokemons: PropTypes.array,
-  }
-
   componentWillMount() {
-    this.props.fetchPokemons();
+    const { getPokemons } = { ...this.props };
+    getPokemons();
   }
 
   changePage = (page) => {
-    this.props.fetchPokemons(page);
-  }
-
-  componentDidMount() {
-    console.log(this.props.pokemons);
+    const { getPokemons } = { ...this.props };
+    getPokemons(page);
   }
 
   render() {
-    console.log('pokemonsFetched', this.props.currentPage, this.props.maxPages)
-    const mappedPokemons = this.props.pokemons.map((pokemon, index) => 
-        <PokemonCard 
-          key={index} 
-          image={pokemon.img} 
-          number={pokemon.num} 
-          name={pokemon.name}
-          pokemonType={pokemon.type}>
-        </PokemonCard>
-      );
-    
+    const {
+      currentPage,
+      maxPages,
+      pokemons,
+      pokemonsFetched,
+    } = { ...this.props };
+
+    const mappedPokemons = pokemons.map(pokemon => (
+      <PokemonCard
+        key={pokemon.num}
+        pokemon={pokemon}
+        image={pokemon.img}
+        number={pokemon.num}
+        name={pokemon.name}
+        pokemonType={pokemon.type}
+      />
+    ));
+
     return (
       <div className="container">
-        {this.props.pokemonsFetched &&
-          mappedPokemons
+        {pokemonsFetched
+          && mappedPokemons
         }
         <div className="pagination-wrapper">
-          <Pagination 
+          <Pagination
             last={this.changePage}
-            lastPageNumber={this.props.maxPages}
-            currentPageNumber={this.props.currentPage}
-            maxPages={this.props.maxPages}
-          ></Pagination>
+            lastPageNumber={maxPages}
+            currentPageNumber={currentPage}
+            maxPages={maxPages}
+          />
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    pokemons: state.pokemons.pokemons,
-    pokemonsFetched: state.pokemons.pokemonsFetched,
-    currentPage: state.pokemons.currentPage,
-    maxPages: state.pokemons.maxPages,
-  };
+const mapStateToProps = state => ({
+  pokemons: state.pokemons.pokemons,
+  pokemonsFetched: state.pokemons.pokemonsFetched,
+  currentPage: state.pokemons.currentPage,
+  maxPages: state.pokemons.maxPages,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getPokemons: (page) => {
+    dispatch(fetchPokemons(page));
+  },
+});
+
+App.propTypes = {
+  currentPage: PropTypes.number,
+  maxPages: PropTypes.number,
+  pokemonsFetched: PropTypes.bool,
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchPokemons: (page) => {
-      dispatch(fetchPokemons(page));
-    },
-  };
+App.defaultProps = {
+  currentPage: 1,
+  maxPages: 8,
+  pokemonsFetched: false,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App);
