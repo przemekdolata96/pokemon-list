@@ -1,0 +1,92 @@
+@import '../../theme/variables.scss';
+
+.pokemon-card-container {
+  box-sizing: border-box;
+  width: 240px;
+  height: 300px;
+  border: 0.5px solid $gray;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+
+  span {
+    font-weight: 600;
+    color: $black;
+  }
+}
+
+.image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 200px;
+
+  img {
+    width: 100%;
+    object-fit: contain;
+  }
+}
+
+.type-container {
+  display: flex;
+  justify-content: center;
+
+  .type {
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 14px;
+    margin: 5px;
+    color: $white;
+  }
+
+  .Grass {
+    background-color: $green;
+  }
+
+  .Fire {
+    background-color: $red;
+  }
+
+  .Water {
+    background-color: $blue;
+  }
+
+  .Poison {
+    background-color: $purple;
+  }
+
+  .Ice {
+    background-color: $teal;
+  }
+
+  .Flying {
+    background-color: $orange;
+  }
+
+  .Bug {
+    background-color: $lime;
+  }
+
+  .Psychic {
+    background-color: $dark-gray;
+  }
+  
+  .Ground {
+    background-color: $brown;
+  }
+
+  .Rock {
+    background-color: $black;
+  }
+
+  .Electric {
+    background-color: $yellow;
+  }
+
+  .Normal {
+    background-color: $gray;
+  }
+  
+}

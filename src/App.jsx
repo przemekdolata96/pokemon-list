@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import './App.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPokemons } from './actions/pokemonsActions';
+import fetchPokemons from './actions/pokemonsActions';
+import PokemonCard from './components/PokemonCard/PokemonCard';
+import Pagination from './components/Pagination/Pagination';
 
 export class App extends Component {
   static propTypes = {
@@ -13,8 +15,8 @@ export class App extends Component {
     this.props.fetchPokemons();
   }
 
-  getPokemons = () => {
-    this.props.fetchPokemons();
+  changePage = (page) => {
+    this.props.fetchPokemons(page);
   }
 
   componentDidMount() {
@@ -22,15 +24,30 @@ export class App extends Component {
   }
 
   render() {
-
-    const pokemons = this.props.pokemons;
-    const mappedPokemons = pokemons.map((pokemon, index) => <li key={index}>{pokemon.name}</li>)
+    console.log('pokemonsFetched', this.props.currentPage, this.props.maxPages)
+    const mappedPokemons = this.props.pokemons.map((pokemon, index) => 
+        <PokemonCard 
+          key={index} 
+          image={pokemon.img} 
+          number={pokemon.num} 
+          name={pokemon.name}
+          pokemonType={pokemon.type}>
+        </PokemonCard>
+      );
+    
     return (
-      <div className="App">
-        <button onClick={this.getPokemons}>fetchPokemons</button>
-        <ul>
-          {mappedPokemons}
-        </ul>
+      <div className="container">
+        {this.props.pokemonsFetched &&
+          mappedPokemons
+        }
+        <div className="pagination-wrapper">
+          <Pagination 
+            last={this.changePage}
+            lastPageNumber={this.props.maxPages}
+            currentPageNumber={this.props.currentPage}
+            maxPages={this.props.maxPages}
+          ></Pagination>
+        </div>
       </div>
     )
   }
@@ -39,13 +56,16 @@ export class App extends Component {
 const mapStateToProps = (state) => {
   return {
     pokemons: state.pokemons.pokemons,
+    pokemonsFetched: state.pokemons.pokemonsFetched,
+    currentPage: state.pokemons.currentPage,
+    maxPages: state.pokemons.maxPages,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchPokemons: () => {
-      dispatch(fetchPokemons());
+    fetchPokemons: (page) => {
+      dispatch(fetchPokemons(page));
     },
   };
 };
