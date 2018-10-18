@@ -10,6 +10,14 @@ yarn install
 yarn start
 ```
 
+### Running json-server with pokemons api
+```
+open new terminal
+switch to api directory
+npm install
+npm run api
+```
+
 ### Compiles and minifies for production
 ```
 yarn build
