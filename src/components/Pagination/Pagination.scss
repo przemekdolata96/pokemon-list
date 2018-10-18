@@ -16,5 +16,9 @@
 
   .active {
     color: $blue;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
